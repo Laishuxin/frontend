@@ -1,0 +1,10 @@
+{
+  "version": "0.0.1",
+  "name": "@frontend/algorithm",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "@frontend/config": "*",
+    "@frontend/tsconfig": "*"
+  }
+}

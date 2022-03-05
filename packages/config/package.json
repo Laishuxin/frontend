@@ -1,0 +1,13 @@
+{
+  "name": "@frontend/config",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "eslint-preset.js"
+  ],
+  "dependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.3.0"
+  }
+}
