@@ -1,6 +1,6 @@
 {
   "extends": "@frontend/tsconfig/node.tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
   }
 }
