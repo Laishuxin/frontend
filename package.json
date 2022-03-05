@@ -6,16 +6,18 @@
     "packages/*"
   ],
   "scripts": {
+    "prepare": "husky install",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,js,jsx}\""
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
     "deepmerge": "^4.2.2",
     "execa": "^6.1.0",
     "fs-extra": "^10.0.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "ts-node": "^10.6.0",
     "turbo": "latest",
@@ -24,6 +26,9 @@
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,md}": "prettier --write ."
   },
   "packageManager": "pnpm@6.29.1"
 }
