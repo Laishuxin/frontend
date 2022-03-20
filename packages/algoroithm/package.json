@@ -2,6 +2,7 @@
   "version": "0.0.1",
   "name": "@frontend/algorithm",
   "private": true,
+  "module": "es",
   "scripts": {},
   "devDependencies": {
     "@frontend/config": "*",

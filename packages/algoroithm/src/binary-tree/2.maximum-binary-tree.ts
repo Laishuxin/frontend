@@ -1,4 +1,5 @@
-export {}
+// export {}
+
 /**
  * Definition for a binary tree node.
  * class TreeNode {
@@ -24,25 +25,19 @@ class TreeNode {
   }
 }
 
-function maxPathSum(root: TreeNode | null): number {
-  if (!root) return 0
-  let res = Number.MIN_SAFE_INTEGER
-  const max = Math.max
-  function traveOneSide(node: TreeNode | null) {
-    if (!node) return 0
+function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
+  if (nums.length === 0) return null
+  const _max = Math.max(...nums)
+  const index = nums.indexOf(_max)
 
-    const left = max(traveOneSide(node.left), 0)
-    const right = max(traveOneSide(node.right), 0)
-    res = max(left + right + node.val, res)
-    return max(left, right) + node.val
-  }
-  traveOneSide(root)
-  return res
+  const root = new TreeNode(_max)
+  root.left = constructMaximumBinaryTree(nums.slice(0, index))
+  root.right = constructMaximumBinaryTree(nums.slice(index + 1, nums.length))
+  return root
 }
 
 function test() {
-  const root = new TreeNode(0)
-  const result = maxPathSum(root)
-  console.log('result: ', result)
+  const nums = [3,2,1,6,0,5]
+  console.log(constructMaximumBinaryTree(nums))
 }
 test()
