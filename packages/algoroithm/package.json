@@ -3,7 +3,10 @@
   "name": "@frontend/algorithm",
   "private": true,
   "module": "es",
-  "scripts": {},
+  "scripts": {
+    "c": "yarn compile",
+    "compile": "tsc --target es6 --module commonjs"
+  },
   "devDependencies": {
     "@frontend/config": "*",
     "@frontend/tsconfig": "*"
