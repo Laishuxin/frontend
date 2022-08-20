@@ -2,7 +2,12 @@ import { reactive } from '../src/reactivity'
 import { expect, vi, it, describe, beforeEach } from 'vitest'
 import { activeEffect, effect, ReactiveEffect } from '../src/effect'
 
-const getInitValue = () => ({ count: 1, flag: true, count2: 2 })
+const getInitValue = () => ({
+  count: 1,
+  flag: true,
+  count2: 2,
+  countObj: { count: 1 },
+})
 describe('Should perform the correct reactive', () => {
   let state = reactive(getInitValue())
   let gCount = 0
@@ -25,6 +30,16 @@ describe('Should perform the correct reactive', () => {
   it('Should return the same proxy when pass parameter is a proxy', () => {
     const proxy1 = reactive({ count: 1 })
     expect(proxy1 === reactive(proxy1)).toBeTruthy()
+  })
+
+  it('Reactive deep', () => {
+    effect(() => {
+      state.countObj.count++
+      gCount++
+    })
+    expect(gCount).toBe(1)
+    state.countObj.count++
+    expect(gCount).toBe(2)
   })
 
   it('Should active current effect', () => {
