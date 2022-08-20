@@ -1,0 +1,32 @@
+{
+  "name": "@vue3/reactivity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@vue3/shared": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "vite": "^3.0.7",
+    "vue": "3.2.31"
+  },
+  "buildOptions": {
+    "name": "VueReactivity",
+    "format": [
+      "global",
+      "umd",
+      "cjs",
+      "esm-bundler"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "vitest": "^0.21.1"
+  }
+}
