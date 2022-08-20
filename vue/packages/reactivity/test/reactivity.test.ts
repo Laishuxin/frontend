@@ -1,11 +1,15 @@
 import { reactive } from '../src/reactivity'
-import { assert, expect, test, it, describe, beforeEach } from 'vitest'
+import { expect, vi, it, describe, beforeEach } from 'vitest'
 import { activeEffect, effect, ReactiveEffect } from '../src/effect'
 
 const getInitValue = () => ({ count: 1, flag: true, count2: 2 })
 describe('Should perform the correct reactive', () => {
   let state = reactive(getInitValue())
   let gCount = 0
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
   beforeEach(() => {
     state = reactive(getInitValue())
     gCount = 0
@@ -100,7 +104,37 @@ describe('Should perform the correct reactive', () => {
     state.count++
     expect(gCount).toBe(1)
     runner()
-    
+
+    expect(gCount).toBe(2)
+  })
+
+  it("Enable to custom effect's scheduler", () => {
+    let waiting = false
+    const runner = effect(
+      () => {
+        state.count++
+        gCount++
+      },
+      {
+        scheduler: () => {
+          if (!waiting) {
+            waiting = true
+            setTimeout(() => {
+              runner()
+              waiting = false
+            }, 1000)
+          }
+        },
+      },
+    )
+    expect(gCount).toBe(1)
+    state.count++
+    state.count++
+    state.count++
+    state.count++
+    state.count++
+    vi.advanceTimersToNextTimer()
+
     expect(gCount).toBe(2)
   })
 })

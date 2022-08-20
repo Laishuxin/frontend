@@ -13,7 +13,7 @@ export class ReactiveEffect {
   public deps: any[] = []
   public parent: ReactiveEffect | null = null
 
-  constructor(public fn: Fn) {}
+  constructor(public fn: Fn, public scheduler?: Function) {}
 
   run() {
     if (!this.active) {
@@ -41,9 +41,9 @@ export class ReactiveEffect {
   }
 }
 
-export function effect(fn: Fn) {
+export function effect(fn: Fn, options: { scheduler?: Function } = {}) {
   // 可以嵌套
-  const _effect = new ReactiveEffect(fn)
+  const _effect = new ReactiveEffect(fn, options.scheduler)
   _effect.run()
 
   const runner = _effect.run.bind(_effect)
@@ -80,7 +80,9 @@ export function trigger(target, type, key, newValue, oldValue) {
   if (effects) {
     const clonedEffects = new Set(effects)
     clonedEffects.forEach(effect => {
-      if (activeEffect !== effect) effect.run()
+      if (activeEffect !== effect) {
+        effect.scheduler ? effect.scheduler() : effect.run()
+      }
     })
   }
 }
