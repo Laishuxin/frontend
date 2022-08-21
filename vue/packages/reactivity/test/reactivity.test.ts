@@ -1,6 +1,7 @@
 import { reactive } from '../src/reactivity'
 import { expect, vi, it, describe, beforeEach } from 'vitest'
 import { activeEffect, effect, ReactiveEffect } from '../src/effect'
+import { computed } from '../src/computed'
 
 const getInitValue = () => ({
   count: 1,
@@ -150,6 +151,52 @@ describe('Should perform the correct reactive', () => {
     state.count++
     vi.advanceTimersToNextTimer()
 
+    expect(gCount).toBe(2)
+  })
+})
+
+describe('Test computed', () => {
+  function getInitState() {
+    return {
+      firstName: 'first',
+      lastName: 'last',
+    }
+  }
+
+  let state = reactive(getInitState())
+  let gCount = 0
+  beforeEach(() => {
+    state = reactive(getInitState())
+    gCount = 0
+  })
+
+  it('Should perform computed correctly', () => {
+    const computedName = computed(() => {
+      gCount++
+      return state.firstName + ' ' + state.lastName
+    })
+
+    expect(computedName.value).toBe(`first last`)
+    expect(gCount).toBe(1)
+    state.firstName = 'First'
+    expect(computedName.value).toBe(`First last`)
+    expect(gCount).toBe(2)
+  })
+
+  it('Should perform the correct getter and setter', () => {
+    const computedName = computed({
+      get: () => {
+        gCount++
+        return state.firstName + ' ' + state.lastName
+      },
+      set: lastName => {
+        state.lastName = lastName
+      },
+    })
+
+    expect(computedName.value).toBe(`first last`)
+    computedName.value = 'Last'
+    expect(computedName.value).toBe(`first Last`)
     expect(gCount).toBe(2)
   })
 })

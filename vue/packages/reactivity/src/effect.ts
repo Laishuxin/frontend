@@ -17,8 +17,7 @@ export class ReactiveEffect {
 
   run() {
     if (!this.active) {
-      this.fn()
-      return
+      return this.fn()
     }
 
     this.parent = activeEffect
@@ -53,6 +52,17 @@ export function effect(fn: Fn, options: { scheduler?: Function } = {}) {
 }
 
 const targetMap = new WeakMap<any, Map<any, Set<any>>>()
+
+export function trackEffects(dep: Set<any>) {
+  if (!activeEffect) return
+
+  const shouldTrack = !dep.has(activeEffect)
+  if (shouldTrack) {
+    dep.add(activeEffect)
+    activeEffect.deps.push(dep)
+  }
+}
+
 export function track(target, type, key) {
   if (!activeEffect) return
 
@@ -65,11 +75,16 @@ export function track(target, type, key) {
   if (!dep) {
     depsMap.set(key, (dep = new Set()))
   }
-  const shouldTrack = !dep.has(activeEffect)
-  if (shouldTrack) {
-    dep.add(activeEffect)
-    activeEffect.deps.push(dep)
-  }
+  trackEffects(dep)
+}
+
+export function triggerEffects(effects: Set<any>) {
+  const clonedEffects = new Set(effects)
+  clonedEffects.forEach(effect => {
+    if (activeEffect !== effect) {
+      effect.scheduler ? effect.scheduler() : effect.run()
+    }
+  })
 }
 
 export function trigger(target, type, key, newValue, oldValue) {
@@ -77,12 +92,5 @@ export function trigger(target, type, key, newValue, oldValue) {
   if (!depsMap) return
 
   const effects = depsMap.get(key)
-  if (effects) {
-    const clonedEffects = new Set(effects)
-    clonedEffects.forEach(effect => {
-      if (activeEffect !== effect) {
-        effect.scheduler ? effect.scheduler() : effect.run()
-      }
-    })
-  }
+  if (effects) triggerEffects(effects)
 }

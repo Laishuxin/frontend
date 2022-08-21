@@ -1,10 +1,8 @@
 import { isObject } from 'lodash-es'
 import { track, trigger } from './effect'
 import { reactive } from './reactivity'
+import { REACTIVE_FLAGS } from './_flags'
 
-export const enum REACTIVE_FLAGS {
-  IS_REACTIVE = '__v_is_reactive',
-}
 
 export const baseHandler = {
   get(target, key, receiver) {

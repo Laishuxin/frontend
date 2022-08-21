@@ -1,5 +1,6 @@
 import { isObject } from 'lodash-es'
-import { baseHandler, REACTIVE_FLAGS } from './baseHandler'
+import { baseHandler } from './baseHandler'
+import { REACTIVE_FLAGS } from './_flags'
 
 const reactiveMap = new WeakMap()
 export function reactive<T>(target: T): T {
