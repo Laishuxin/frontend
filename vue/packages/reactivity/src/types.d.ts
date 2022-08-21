@@ -1,1 +1,1 @@
-export type Fn = (...args: any[]) => any
+export type Fn<Args = any[], Return = any> = (...args: Args) => Return

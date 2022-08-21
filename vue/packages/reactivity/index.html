@@ -13,6 +13,19 @@
       <button id="btn1">click me</button>
       <button id="btn2">click me</button>
     </div>
-    <script type="module" src="./examples/reactivity1.ts"></script>
+    <!-- <script type="module" src="./examples/reactivity1.ts"></script> -->
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script>
+      const { reactive, watch } = Vue
+      const state = reactive({
+        count: 1,
+      })
+      watch(state, (newValue, oldValue) => {
+        console.log('oldValue: ', oldValue)
+        console.log('newValue: ', newValue)
+      })
+      state.count++
+      watch(1, () => {})
+    </script>
   </body>
 </html>
