@@ -1,0 +1,69 @@
+/*
+* CSS BEM Example.
+* B: block
+* E: element
+* M: modifier
+* @see https://www.freecodecamp.org/news/css-naming-conventions-that-will-save-you-hours-of-debugging-35cea737d849/
+*
+*
+*/
+
+.card {
+  width: 400px;
+  // height: 600px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 1em;
+
+  &__picture {
+    display: block;
+    height: 200px;
+    background: lightpink;
+    border-radius: 0.5em;
+  }
+
+  &__content {
+    background: #fff;
+    margin-top: 1.2em;
+    padding: 0.2em;
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    padding: 0.3em 0.5em;
+    margin-right: 0.5em;
+    background: lightcoral;
+    border-radius: 0.4em;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.8s;
+
+    &:hover,
+    &--active {
+      background: coral;
+    }
+  }
+
+  &__desc {
+    margin: 1em 0;
+  }
+
+  &__link {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.4em 0.6em;
+    border-radius: 0.4em;
+    background: lightseagreen;
+
+    &:hover {
+      background: seagreen;
+    }
+  }
+}

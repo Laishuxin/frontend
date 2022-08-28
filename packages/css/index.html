@@ -7,7 +7,25 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="card">
+        <span class="card__picture"></span>
+        <div class="card__content">
+          <ul class="card__list">
+            <li class="card__item card__item--active">First</li>
+            <li class="card__item card__item">Second</li>
+            <li class="card__item card__item">Third</li>
+          </ul>
+
+          <p class="card__desc">
+            Card description...
+          </p>
+
+          <a href="#" class="card__link">Visit this link</a>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
