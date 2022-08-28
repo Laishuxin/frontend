@@ -17,7 +17,7 @@ function getKthFromEnd(head: ListNode | null, k: number): ListNode | null {
   while (k-- && p1) {
     p1 = p1.next
   }
-  while(p1) {
+  while (p1) {
     p1 = p1.next
     p2 = p2.next
   }

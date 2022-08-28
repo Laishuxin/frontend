@@ -37,7 +37,7 @@ function constructMaximumBinaryTree(nums: number[]): TreeNode | null {
 }
 
 function test() {
-  const nums = [3,2,1,6,0,5]
+  const nums = [3, 2, 1, 6, 0, 5]
   console.log(constructMaximumBinaryTree(nums))
 }
 test()

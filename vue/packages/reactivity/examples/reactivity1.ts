@@ -17,7 +17,7 @@ const box = document.querySelector('.box')
 
 const state = reactive({ count: 1 })
 
-btn1.addEventListener('click', (e) => {
+btn1.addEventListener('click', e => {
   state.count++
 })
 

@@ -3,7 +3,6 @@ import { track, trigger } from './effect'
 import { reactive } from './reactivity'
 import { REACTIVE_FLAGS } from './_flags'
 
-
 export const baseHandler = {
   get(target, key, receiver) {
     if (key === REACTIVE_FLAGS.IS_REACTIVE) return true

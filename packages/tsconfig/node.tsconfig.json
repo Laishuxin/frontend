@@ -2,9 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "node",
-      "@types/node"
-    ]
+    "types": ["node", "@types/node"]
   }
 }

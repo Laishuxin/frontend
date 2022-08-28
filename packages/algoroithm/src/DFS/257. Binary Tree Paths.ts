@@ -35,7 +35,7 @@ function dfs(res: string[], path: string, root: TreeNode) {
     res.push(`${path}${root.val}`)
     return
   }
-  
+
   path = `${path}${root.val}->`
   root.left && dfs(res, path, root.left)
   root.right && dfs(res, path, root.right)

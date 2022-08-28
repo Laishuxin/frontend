@@ -95,7 +95,7 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
   lists.forEach(list => {
     while (list) {
       queue.enqueue(list)
-      const  tmp = list
+      const tmp = list
       list = list.next
       tmp.next = null
     }
@@ -111,7 +111,7 @@ function mergeKLists(lists: Array<ListNode | null>): ListNode | null {
 }
 
 function main() {
-  const queue = new PriorityQueue((a: number, b: number) => b - )
+  const queue = new PriorityQueue((a: number, b: number) => b - a)
   queue.enqueue(1)
   queue.enqueue(2)
   queue.enqueue(3)
