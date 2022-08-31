@@ -1,9 +1,38 @@
-import { FLAG, trigger } from './effect'
-import { reactiveMap, readonlyMap, shallowReadonlyMap } from './reactive'
+import { isObject } from '@vue3/shared'
+import { FLAG, track, trigger } from './effect'
+import {
+  reactive,
+  ReactiveFlags,
+  reactiveMap,
+  readonly,
+  readonlyMap,
+  shallowReadonlyMap,
+} from './reactive'
 import { warn } from './warn'
 
 const createGetter = (isReadonly = false, isShallow = false) => {
-  return function get() {}
+  return function get(target, key, receiver) {
+    if (key === ReactiveFlags.IS_REACTIVE) {
+      return !isReadonly
+    } else if (key === ReactiveFlags.IS_READONLY) {
+      return isReadonly
+    } else if (key === ReactiveFlags.IS_RAW) {
+      if (
+        reactiveMap.get(target) === receiver ||
+        readonlyMap.get(target) === receiver ||
+        shallowReadonlyMap.get(target) === receiver
+      ) {
+        return target
+      }
+    }
+
+    const res = Reflect.get(target, key, receiver)
+    if (!isReadonly) track(target, FLAG.GET, key)
+    if (isShallow) return res
+
+    if (isObject(res)) return isReadonly ? readonly(res) : reactive(res)
+    return res
+  }
 }
 const createSetter = (isReadonly = false) => {
   if (isReadonly) {
@@ -39,3 +68,24 @@ export const mutableHandlers = {
   get,
   set,
 }
+
+// const obj = { name: '1' }
+// const obj2 = Object.assign({ age: '2' }, obj)
+// const p = new Proxy(obj, {
+//   get(target, key, receiver) {
+//     console.log('target1: ', target)
+//     console.log('receiver1: ', receiver)
+//     return Reflect.get(target, key, receiver)
+//   },
+// })
+
+// const p2 = new Proxy(obj2, {
+//   get(target, key, receiver) {
+//     console.log('target2: ', target)
+//     console.log('receiver2: ', receiver)
+//     return Reflect.get(target, key, receiver)
+//   },
+// })
+
+// p.name
+// p2.name

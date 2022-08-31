@@ -1,4 +1,9 @@
 import { isObject } from '@vue3/shared'
+import {
+  mutableHandlers,
+  readonlyHandlers,
+  shallowReadonlyHandlers,
+} from './baseHandlers'
 import { warn } from './warn'
 
 export const ReactiveFlags = {
@@ -11,9 +16,31 @@ export const readonlyMap = new WeakMap()
 export const reactiveMap = new WeakMap()
 export const shallowReadonlyMap = new WeakMap()
 
-export const reactive = (obj: unknown) => {
-  if (!isObject(obj)) {
-    warn(`expect source is an Object, but receive ${typeof obj}`)
-    return obj
+export const reactive = <T extends object>(target: T) => {
+  return createReactiveObject(target, reactiveMap, mutableHandlers)
+}
+export const readonly = <T extends object>(target: T) => {
+  return createReactiveObject(target, readonlyMap, readonlyHandlers)
+}
+
+export const shallowReadonly = <T extends object>(target: T) => {
+  return createReactiveObject(
+    target,
+    shallowReadonlyMap,
+    shallowReadonlyHandlers,
+  )
+}
+
+function createReactiveObject(target, map: WeakMap<any, unknown>, handler) {
+  if (!isObject(target)) {
+    warn(`expect source is an Object, but receive ${typeof target}`)
+    return target
   }
+  const existingProxy = map.get(target)
+  if (existingProxy) return existingProxy
+
+  const proxy = new Proxy(target, handler)
+  map.set(target, proxy)
+
+  return proxy
 }
