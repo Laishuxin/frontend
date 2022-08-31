@@ -16,14 +16,14 @@ export const readonlyMap = new WeakMap()
 export const reactiveMap = new WeakMap()
 export const shallowReadonlyMap = new WeakMap()
 
-export const reactive = <T extends object>(target: T) => {
+export const reactive = <T extends object>(target: T): T => {
   return createReactiveObject(target, reactiveMap, mutableHandlers)
 }
-export const readonly = <T extends object>(target: T) => {
+export const readonly = <T extends object>(target: T): T => {
   return createReactiveObject(target, readonlyMap, readonlyHandlers)
 }
 
-export const shallowReadonly = <T extends object>(target: T) => {
+export const shallowReadonly = <T extends object>(target: T): T => {
   return createReactiveObject(
     target,
     shallowReadonlyMap,
@@ -43,4 +43,20 @@ function createReactiveObject(target, map: WeakMap<any, unknown>, handler) {
   map.set(target, proxy)
 
   return proxy
+}
+
+export function isReactive(target) {
+  return !!target[ReactiveFlags.IS_REACTIVE]
+}
+
+export function isReadonly(target) {
+  return !!target[ReactiveFlags.IS_READONLY]
+}
+
+export function isProxy(target) {
+  return isReactive(target) || isReadonly(target)
+}
+
+export function toRaw(target) {
+  return target[ReactiveFlags.IS_RAW] || target
 }
