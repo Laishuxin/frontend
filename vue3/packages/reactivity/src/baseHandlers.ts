@@ -38,6 +38,7 @@ const createSetter = (isReadonly = false) => {
   if (isReadonly) {
     return function set(target, key) {
       warn(`Set operation on key "${String(key)}" failed, target is readonly`)
+      return true
     }
   } else {
     return function set(target, key, value, receiver) {
